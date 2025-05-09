@@ -1,6 +1,5 @@
 from aiohttp import web
 from plugins import web_server
-import pyromod.listen
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 import sys
@@ -31,13 +30,18 @@ class Bot(Client):
 
         if FORCE_SUB_CHANNEL:
             try:
-                link = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
+                self.LOGGER(__name__).info(f"Attempting to access FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
+                chat = await self.get_chat(FORCE_SUB_CHANNEL)
+                link = chat.invite_link
                 if not link:
+                    self.LOGGER(__name__).info("No invite link found, attempting to export...")
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
                     link = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
                 self.invitelink = link
+                self.LOGGER(__name__).info(f"Invite link successfully retrieved: {self.invitelink}")
             except Exception as a:
-                self.LOGGER(__name__).warning(a)
+                self.LOGGER(__name__).error(f"Error accessing FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
+                self.LOGGER(__name__).error(f"Exception details: {a}")
                 self.LOGGER(__name__).warning("Bot Can't Export Invite link From Force Sub Channel!")
                 self.LOGGER(__name__).warning(f"Please Double Check The FORCE_SUB_CHANNEL Value And Make Sure Bot Is Admin In Channel With Invite Users Via Link Permission, Current Force Sub Channel Value: {FORCE_SUB_CHANNEL}")
                 self.LOGGER(__name__).info("\nBot Stopped...")
