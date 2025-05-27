@@ -7,7 +7,6 @@ from datetime import datetime
 from config import API_HASH, API_ID, LOGGER, BOT_TOKEN, TG_BOT_WORKERS, FORCE_SUB_CHANNEL, CHANNEL_ID, PORT
 import pyrogram.utils
 
-pyrogram.utils.MIN_CHANNEL_ID = -1001218085896
 
 
 
@@ -32,7 +31,7 @@ class Bot(Client):
             try:
                 self.LOGGER(__name__).info(f"Attempting to access FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
                 try:
-                    chat = await self.get_chat("okrabdi")
+                    chat = await self.get_chat(FORCE_SUB_CHANNEL)
                     self.LOGGER(__name__).info(f"Channel ID: {chat.id}, title: {chat.title}")
                     if not chat.invite_link:
                         await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
