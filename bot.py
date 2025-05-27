@@ -31,14 +31,15 @@ class Bot(Client):
         if FORCE_SUB_CHANNEL:
             try:
                 self.LOGGER(__name__).info(f"Attempting to access FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
-                chat = await self.get_chat(FORCE_SUB_CHANNEL)
-                link = chat.invite_link
-                if not link:
-                    self.LOGGER(__name__).info("No invite link found, attempting to export...")
-                    await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
-                    link = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
-                self.invitelink = link
-                self.LOGGER(__name__).info(f"Invite link successfully retrieved: {self.invitelink}")
+                try:
+                    chat = await self.get_chat(FORCE_SUB_CHANNEL)
+                    self.LOGGER(__name__).info(f"Channel ID: {chat.id}, title: {chat.title}")
+                    if not chat.invite_link:
+                        await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
+                        self.invitelink = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
+                except Exception as e:
+                    self.LOGGER(__name__).error(f"Failed to access FORCE_SUB_CHANNEL: {e}")
+                    sys.exit()
             except Exception as a:
                 self.LOGGER(__name__).error(f"Error accessing FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
                 self.LOGGER(__name__).error(f"Exception details: {a}")
