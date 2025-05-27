@@ -32,7 +32,7 @@ class Bot(Client):
             try:
                 self.LOGGER(__name__).info(f"Attempting to access FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
                 try:
-                    chat = await self.get_chat(FORCE_SUB_CHANNEL)
+                    chat = await self.get_chat("okrabdi")
                     self.LOGGER(__name__).info(f"Channel ID: {chat.id}, title: {chat.title}")
                     if not chat.invite_link:
                         await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
