@@ -51,7 +51,7 @@ class Bot(Client):
             db_channel = await self.get_chat(CHANNEL_ID)
             self.LOGGER(__name__).info(f"Channel ID: {db_channel.id}, title: {db_channel.title}")
             self.db_channel = db_channel
-            test = await self.send_message(chat_id = "KashDaYash", text = "Hey 🖐")
+            test = await self.send_message(chat_id = CHANNEL_ID, text = "Hey 🖐")
             await test.delete()
         except Exception as e:
             self.LOGGER(__name__).warning(e)
