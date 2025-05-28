@@ -48,7 +48,7 @@ class Bot(Client):
                 sys.exit()
 
         try:
-            db_channel = await self.get_chat("filesharechannel")
+            db_channel = await self.get_chat(CHANNEL_ID)
             self.LOGGER(__name__).info(f"Channel ID: {db_channel.id}, title: {db_channel.title}")
             self.db_channel = db_channel
             test = await self.send_message(chat_id = db_channel.id, text = "Hey 🖐")
