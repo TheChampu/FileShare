@@ -32,7 +32,7 @@ class Bot(Client):
                 self.LOGGER(__name__).info(f"Attempting to access FORCE_SUB_CHANNEL: {FORCE_SUB_CHANNEL}")
                 try:
                     chat = await self.get_chat(FORCE_SUB_CHANNEL)
-                    self.LOGGER(__name__).info(f"Channel ID: {chat.id}, title: {chat.title}")
+                    self.LOGGER(__name__).info(f"Force Chat ID: {chat.id}, title: {chat.title}")
                     if not chat.invite_link:
                         await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
                         self.invitelink = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
@@ -49,6 +49,7 @@ class Bot(Client):
 
         try:
             db_channel = await self.get_chat(CHANNEL_ID)
+            self.LOGGER(__name__).info(f"Channel ID: {db_channel.id}, title: {db_channel.title}")
             self.db_channel = db_channel
             test = await self.send_message(chat_id = "KashDaYash", text = "Hey 🖐")
             await test.delete()
